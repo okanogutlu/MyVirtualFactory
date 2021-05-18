@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Entities
+namespace Entities.Concrete
 {
-    public class User
+    public class User:  IEntity 
     {
-        public int UserID { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string Password { get; set; }
-
+        /// <summary>
+        /// A person can have multiple Orders
+        /// </summary>
+        public virtual ICollection<Order> Orders { get; set; }
+        public User() => Orders = new List<Order>();
     }
 }
