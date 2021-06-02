@@ -14,6 +14,9 @@ namespace Business.Abstract
         IDataResult<List<WorkCenterOperation>> GetByWorkCenterID(int ID);//ID ile bir makinenin yapabileceği işleri getirir.
         IDataResult<List<WorkCenterOperation>> GetByOperationID(int ID); //Tüm WorkCenterOperation  getir.
         IDataResult<List<WorkCenterOperationsDetailDTO>> GetWorkCenterOperationDetails();
+        IDataResult<List<WorkCenterOperationsDetailDTO>> GetWorkCenterOperationDetailsbyWorkCenterName(string workcentername);
+         IDataResult<List<WorkCenterOperationsDetailDTO>> GetWorkCenterOperationDetailsByOperationName(string operationName);
+        IDataResult<List<WorkCenterOperationsDetailDTO>> GetWorkCenterOperationDetailsByProductType(string ProductType);
         IResult Add(WorkCenterOperation workCenterOperation);
         IResult Update(WorkCenterOperation workCenterOperation);
     }

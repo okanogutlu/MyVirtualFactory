@@ -1,14 +1,16 @@
 ﻿using Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Entities.Concrete
 {
    public class WorkCenter : IEntity
     {
-       
 
+
+        [Key]
         public int WorkCenterID { get; set; }
 
         /// <summary>

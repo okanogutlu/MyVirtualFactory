@@ -62,6 +62,11 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(_productDAL.GetAll(p => p.ProductType == productType));
         }
 
+        public IDataResult<List<Product>> GetSalableProducts()
+        {
+            return new SuccessDataResult<List<Product>>(_productDAL.GetAll(p=>p.IsSalable==true), "Successfully Listed");
+        }
+
         public IResult Update(Product productItem)
         {
             _productDAL.Update(productItem);

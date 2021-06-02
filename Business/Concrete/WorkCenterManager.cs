@@ -32,19 +32,6 @@ namespace Business.Concrete
             return new SuccessResult("Successfully Added");
         }
 
-        public IResult ChangeActiveStatus(WorkCenter workCenter, bool ActiveStatus)
-        {
-            _workCenterDAL.Get(p => p.WorkCenterID == workCenter.WorkCenterID).Active = ActiveStatus;
-            if (ActiveStatus)
-            {
-                return new SuccessResult("successfully activated");
-            }
-            else
-            {
-                return new SuccessResult("Succesfully changed");
-            }
-        }
-
         public IDataResult<List<WorkCenter>> GetAll()
         {
             return new SuccessDataResult<List<WorkCenter>>(_workCenterDAL.GetAll(), "Successfully Listed");
@@ -59,6 +46,19 @@ namespace Business.Concrete
         {
             _workCenterDAL.Update(workCenter);
             return new SuccessResult("Successfully Updated");
+        }
+
+        public IResult ChangeActiveStatus(WorkCenter workCenter, bool ActiveStatus)
+        {
+            _workCenterDAL.Get(p => p.WorkCenterID == workCenter.WorkCenterID).Active = ActiveStatus;
+            if (ActiveStatus)
+            {
+                return new SuccessResult("successfully activated");
+            }
+            else
+            {
+                return new SuccessResult("Succesfully changed");
+            }
         }
 
 

@@ -2,6 +2,7 @@
 using Entities.Concrete.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Entities.Concrete
@@ -12,9 +13,10 @@ namespace Entities.Concrete
         {
             OrderItems = new List<OrderItem>();
             SubProductTrees = new List<SubProductTree>(); 
-            ProductTrees = new List<SubProductTree>(); 
+            //ProductTrees = new List<SubProductTree>(); 
         }
 
+        [Key]
         public int ProductID { get; set; }
         public string ProductName { get; set; }
 
@@ -37,7 +39,7 @@ namespace Entities.Concrete
 
         public virtual ICollection<OrderItem>OrderItems { get; set; }  //Bir product, birden fazla sipariş itemı olabilir
         public virtual ICollection<SubProductTree>SubProductTrees { get; set; } //bir product, birden fazla subproduct a sahip olabilir
-        public virtual ICollection<SubProductTree> ProductTrees { get; set; } //bir product, başka productların subproduct'ı olabilir.
+       /* public virtual ICollection<SubProductTree> ProductTrees { get; set; } //bir product, başka productların subproduct'ı olabilir*/
 
 
     }

@@ -117,6 +117,21 @@ namespace Business.Concrete
             }
         }
 
-       
+        public IDataResult<List<WorkCenterOperationsDetailDTO>> GetWorkCenterOperationDetailsbyWorkCenterName(string workcentername)
+        {
+            return new SuccessDataResult<List<WorkCenterOperationsDetailDTO>>(_workCenterOperationDAL.GetWorkCenterOperationDetailsbyWorkCenterName(workcentername));
+        }
+
+        public IDataResult<List<WorkCenterOperationsDetailDTO>> GetWorkCenterOperationDetailsByOperationName(string operationName)
+        {
+            return new SuccessDataResult<List<WorkCenterOperationsDetailDTO>>(_workCenterOperationDAL.GetWorkCenterOperationDetailsByOperationName(operationName));
+
+        }
+
+        public IDataResult<List<WorkCenterOperationsDetailDTO>> GetWorkCenterOperationDetailsByProductType(string ProductType)
+        {
+            return new SuccessDataResult<List<WorkCenterOperationsDetailDTO>>(_workCenterOperationDAL.GetWorkCenterOperationDetailsByProductType(ProductType));
+
+        }
     }
 }

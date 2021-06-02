@@ -5,6 +5,7 @@ using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace DataAccess.Concrete.EntityFramework
 {
@@ -15,16 +16,16 @@ namespace DataAccess.Concrete.EntityFramework
             using (MSSQLDbContext context = new MSSQLDbContext())
 
             {
-                var result = from p in context.Products
-                             join c in context.Categories
-                             on p.CategoryID equals c.CategoryID
-                             select new ProductDetailDTO
-                             {
-                                 CategoryName = c.CategoryName,
-                                 ProdutID = p.ProductID,
-                                 ProductName = p.ProductName,
-                                 UnitsInStock = p.UnitsInStock
+                var result = from p in context.OrderItems
+                             join c in context.Orders
+                             on p.OrderID equals c.OrderID
 
+                             select new OrderItemDetailDTO
+                             {
+                                 Amount = p.Amount,
+                                 OrderID = p.OrderID,
+                                 OrderItemID = p.orderItemID,
+                                 ProductName = (context.Products.FirstOrDefault(a => a.ProductID == p.ProductID).ProductName),
                              };
                 return result.ToList();
             }
@@ -35,18 +36,18 @@ namespace DataAccess.Concrete.EntityFramework
             using (MSSQLDbContext context = new MSSQLDbContext())
 
             {
-                var result = from p in context.Products
-                             join c in context.Categories
-                             on p.CategoryID equals c.CategoryID
-                             select new ProductDetailDTO
+                var result = from p in context.OrderItems
+                             join c in context.Orders
+                             on p.OrderID equals c.OrderID
+                             where c.OrderID == ID
+                             select new OrderItemDetailDTO
                              {
-                                 CategoryName = c.CategoryName,
-                                 ProdutID = p.ProductID,
-                                 ProductName = p.ProductName,
-                                 UnitsInStock = p.UnitsInStock
-
+                                 Amount = p.Amount,
+                                 OrderID = p.OrderID,
+                                 OrderItemID = p.orderItemID,
+                                 ProductName = (context.Products.FirstOrDefault(a => a.ProductID == p.ProductID).ProductName),
                              };
-                return result.ToList();
+                return (OrderItemDetailDTO)result;
             }
         }
 
@@ -55,18 +56,18 @@ namespace DataAccess.Concrete.EntityFramework
             using (MSSQLDbContext context = new MSSQLDbContext())
 
             {
-                var result = from p in context.Products
-                             join c in context.Categories
-                             on p.CategoryID equals c.CategoryID
-                             select new ProductDetailDTO
+                var result = from p in context.OrderItems
+                             join c in context.Orders
+                             on p.OrderID equals c.OrderID
+                             where p.orderItemID == ID
+                             select new OrderItemDetailDTO
                              {
-                                 CategoryName = c.CategoryName,
-                                 ProdutID = p.ProductID,
-                                 ProductName = p.ProductName,
-                                 UnitsInStock = p.UnitsInStock
-
+                                 Amount = p.Amount,
+                                 OrderID = p.OrderID,
+                                 OrderItemID = p.orderItemID,
+                                 ProductName = (context.Products.FirstOrDefault(a => a.ProductID == p.ProductID).ProductName),
                              };
-                return result.ToList();
+                return (OrderItemDetailDTO)result;
             }
         }
     }

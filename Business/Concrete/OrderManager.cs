@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -17,11 +18,12 @@ namespace Business.Concrete
         IOrderDAL _orderDAL;
         public OrderManager(IOrderDAL orderDAL) => _orderDAL = orderDAL;
 
+        [SecuredOperation("admin")]
         public IResult Add(Order order)
         {
             var result = BusinessRules.Run(
-               CheckDeadlineIsCorrect(order.Deadline),
-               CheckIfCustomerIDExists(order.UserID)
+               CheckDeadlineIsCorrect(order.Deadline)
+               //CheckIfCustomerIDExists(order.UserID)
                );
 
             if (result != null)
@@ -66,7 +68,7 @@ namespace Business.Concrete
         public IDataResult<Order> GetByCustomerID(int customerID)
         {
             var result = BusinessRules.Run(
-                CheckIfCustomerIDExists(customerID)
+                //CheckIfCustomerIDExists(customerID)
                 );
             if (result == null)
             {
@@ -79,6 +81,7 @@ namespace Business.Concrete
 
         }
 
+        [SecuredOperation("admin")]
         public IDataResult<Order> GetByID(int ID)
         {
             return new SuccessDataResult<Order>(_orderDAL.Get(p => p.OrderID == ID));

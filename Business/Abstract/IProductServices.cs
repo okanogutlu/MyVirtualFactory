@@ -12,6 +12,7 @@ namespace Business.Abstract
         IDataResult<Product> GetByID(int ID);//ID ile product getir.
         IDataResult<Product> GetByProductName(string name);//ProductName ile product getir.
         IDataResult <List<Product>> GetByProductType(Entities.Concrete.Enums.ProductTypes productType);//Producttype ile product getir.
+        IDataResult<List<Product>> GetSalableProducts();
         IResult Add(Product product);
         IResult Update(Product product);
     }

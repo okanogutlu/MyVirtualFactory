@@ -95,6 +95,18 @@ namespace Business.Concrete
 
         }
 
+        public IDataResult<List<SubProductTreeDetailDTO>> GetSubProductTreeDetailsByID(int ID)
+        {
+            return new SuccessDataResult<List<SubProductTreeDetailDTO>>(_subProductTreeDAL.GetSubProductTreeDetails());
+
+        }
+
+        public IDataResult<List<SubProductTreeDetailDTO>> GetSubProductTreeDetailsByProductName(string Name)
+        {
+            return new SuccessDataResult<List<SubProductTreeDetailDTO>>(_subProductTreeDAL.GetSubProductTreeDetailsByProductName(Name));
+
+        }
+
         //BusinessRules
         private IResult CheckIfProductIDIsValid(int ID)
         {

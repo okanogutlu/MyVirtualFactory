@@ -5,26 +5,27 @@ using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    class EfStockDAL : EfEntityRepositoryBase<Stock, MSSQLDbContext>, IStockDAL
+    public class EfStockDAL : EfEntityRepositoryBase<Stock, MSSQLDbContext>, IStockDAL
     {
         public List<StockDetailDTO> GetStockDetails()
         {
             using (MSSQLDbContext context = new MSSQLDbContext())
 
             {
-                var result = from p in context.Orders
-                             join c in context.Users
-                             on p.CategoryID equals c.CategoryID
-                             select new ProductDetailDTO
+                var result = from p in context.Stocks
+                             join c in context.Products
+                             on p.ProductID equals c.ProductID
+                             select new StockDetailDTO
                              {
-                                 CategoryName = c.CategoryName,
-                                 ProdutID = p.ProductID,
-                                 ProductName = p.ProductName,
-                                 UnitsInStock = p.UnitsInStock
-
+                                AmountOfStock=p.AmountOfStock,
+                                ProductID=c.ProductID,
+                                ProductName=c.ProductName,
+                                ProductTypeName=c.ProductType
                              };
                 return result.ToList();
             }

@@ -5,7 +5,7 @@ using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.Linq;
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfOrderDAL : EfEntityRepositoryBase<Order, MSSQLDbContext>, IOrderDAL
@@ -18,14 +18,25 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from p in context.Orders
                              join c in context.Users
-                             on p.CategoryID equals c.CategoryID
-                             select new ProductDetailDTO
+                             on p.UserID equals c.ID
+                             select new OrderDetailDTO
                              {
-                                 CategoryName = c.CategoryName,
-                                 ProdutID = p.ProductID,
-                                 ProductName = p.ProductName,
-                                 UnitsInStock = p.UnitsInStock
-
+                                 CustomerID = p.UserID,
+                                 CustomerName = c.FirstName,
+                                 CustomerSurname = c.LastName,
+                                 Deadline = p.Deadline,
+                                 OrderDate = p.OrderDate,
+                                 OrderID = p.OrderID,
+                                 OrderItem = (from a in context.OrderItems
+                                              where a.OrderID == p.OrderID
+                                              select new OrderItem
+                                              {
+                                                  Amount = a.Amount,
+                                                  OrderID = a.OrderID,
+                                                  orderItemID = a.orderItemID,
+                                                  ProductID = a.ProductID,
+                                              }).ToList(),
+                                 OrderStatus = p.OrderStatus
                              };
                 return result.ToList();
             }
@@ -33,42 +44,73 @@ namespace DataAccess.Concrete.EntityFramework
 
         public List<OrderDetailDTO> GetOrderDetailsByCustomerID(int ID)
         {
+            EfOrderItemDAL forOrderItem = new EfOrderItemDAL();
             using (MSSQLDbContext context = new MSSQLDbContext())
 
             {
                 var result = from p in context.Orders
                              join c in context.Users
-                             on p.CategoryID equals c.CategoryID
-                             select new ProductDetailDTO
-                             {
-                                 CategoryName = c.CategoryName,
-                                 ProdutID = p.ProductID,
-                                 ProductName = p.ProductName,
-                                 UnitsInStock = p.UnitsInStock
+                             on p.UserID equals c.ID
+                             where c.ID == ID
 
+                             select new OrderDetailDTO
+                             {
+                                 CustomerID = p.UserID,
+                                 CustomerName = c.FirstName,
+                                 CustomerSurname = c.LastName,
+                                 Deadline = p.Deadline,
+                                 OrderDate = p.OrderDate,
+                                 OrderID = p.OrderID,
+                                 OrderStatus = p.OrderStatus,
+                                 OrderItem = (from a in context.OrderItems
+                                              where a.OrderID == p.OrderID
+                                              select new OrderItem
+                                              {
+                                                  Amount = a.Amount,
+                                                  OrderID = a.OrderID,
+                                                  orderItemID = a.orderItemID,
+                                                  ProductID = a.ProductID,
+                                                  Product = context.Products.FirstOrDefault(p => p.ProductID == a.ProductID)
+                                              }).ToList()
+                                 
                              };
                 return result.ToList();
             }
         }
 
-        public OrderDetailDTO GetOrderDetailsByOrderID(int ID)
+        public OrderDetailDTO GetOrderDetailsByOrderID(int ID) //burayı liste ye çekelim
         {
+            EfOrderItemDAL forOrderItem = new EfOrderItemDAL();
             using (MSSQLDbContext context = new MSSQLDbContext())
 
             {
                 var result = from p in context.Orders
                              join c in context.Users
-                             on p.CategoryID equals c.CategoryID
-                             select new ProductDetailDTO
-                             {
-                                 CategoryName = c.CategoryName,
-                                 ProdutID = p.ProductID,
-                                 ProductName = p.ProductName,
-                                 UnitsInStock = p.UnitsInStock
+                             on p.UserID equals c.ID
+                             where p.OrderID == ID
 
+                             select new OrderDetailDTO
+                             {
+                                 CustomerID = p.UserID,
+                                 CustomerName = c.FirstName,
+                                 CustomerSurname = c.LastName,
+                                 Deadline = p.Deadline,
+                                 OrderDate = p.OrderDate,
+                                 OrderID = p.OrderID,
+                                 OrderStatus = p.OrderStatus,
+                                 OrderItem = (from a in context.OrderItems
+                                              where a.OrderID == p.OrderID
+                                              select new OrderItem
+                                              {
+                                                  Amount = a.Amount,
+                                                  OrderID = a.OrderID,
+                                                  orderItemID = a.orderItemID,
+                                                  ProductID = a.ProductID,
+                                              }).ToList()
                              };
-                return result.ToList();
+                return result.First();//!
             }
         }
+  
     }
 }

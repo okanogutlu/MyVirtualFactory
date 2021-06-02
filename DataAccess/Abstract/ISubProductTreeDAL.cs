@@ -10,5 +10,8 @@ namespace DataAccess.Abstract
     public interface ISubProductTreeDAL:IEntityRepository<SubProductTree>
     {
          List<SubProductTreeDetailDTO> GetSubProductTreeDetails();
+         List<SubProductTreeDetailDTO> GetSubProductTreeDetailsByProductName(string Name);
+         List<SubProductTreeDetailDTO> GetSubProductTreeDetailsByID(int ID);
+        
     }
 }

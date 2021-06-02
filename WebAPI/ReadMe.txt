@@ -1,2 +1,7 @@
-﻿public virtual ICollection<OrderItem>OrderItems { get; set; } Entities/Product, bu koyulmalı mı?
-En son StockDetailDTO inceleniyordu...
+﻿*Identity kodlaması bitti
+
+*ancak referans sorunu var
+	user(customer) orderlara erişemiyor.
+	bu yüzden ara tablo koyulabilir.
+
+*veritabanı ilişkileri yazılmalı

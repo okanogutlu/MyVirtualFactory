@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Entities.Concrete.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +13,7 @@ namespace Entities.DTOs
         public string WorkCenterName { get; set; }
         public int OperationID { get; set; }
         public string OperationName { get; set; }
-        public string ProductType { get; set; }
+        public ProductTypes ProductType { get; set; }
         public int Speed { get; set; }
 
     }
